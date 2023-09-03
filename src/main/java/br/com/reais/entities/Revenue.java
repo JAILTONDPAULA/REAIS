@@ -1,72 +1,97 @@
 package br.com.reais.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="RECEITA")
 public class Revenue implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long    id;
-	private String  descricao;
-	private Double  valor;
-	private Integer ano;
-	private Integer mes;
-	private String  dataRegistro;
+	@Column(name="ANO")
+	private Integer year;
+	@Column(name="MÊS")
+	private Integer month;
+	@Column(name="VALOR")
+	private Double  value;
+	@Column(name="OBSERVACAO")
+	private String  observation;
+	@Column(name="DT_REGISTRO")
+	private LocalDate  registrationDate;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_RECEITA")
+	private OriginIncome origin;
 	
 	public Revenue() {
 		
 	}
 
-	public Revenue(Long id, String descricao, Double valor, Integer ano, Integer mes, String dataRegistro) {
+	public Revenue(Long id, Integer year, Integer month, Double value, String observation, LocalDate registrationDate) {
+		super();
 		this.id = id;
-		this.descricao = descricao;
-		this.valor = valor;
-		this.ano = ano;
-		this.mes = mes;
-		this.dataRegistro = dataRegistro;
+		this.year = year;
+		this.month = month;
+		this.value = value;
+		this.observation = observation;
+		this.registrationDate = registrationDate;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public Integer getMonth() {
+		return month;
+	}
+
+	public void setMonth(Integer month) {
+		this.month = month;
+	}
+
+	public Double getValue() {
+		return value;
+	}
+
+	public void setValue(Double value) {
+		this.value = value;
+	}
+
+	public String getObservation() {
+		return observation;
+	}
+
+	public void setObservation(String observation) {
+		this.observation = observation;
+	}
+
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 
 	public Long getId() {
 		return id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public Double getValor() {
-		return valor;
-	}
-
-	public void setValor(Double valor) {
-		this.valor = valor;
-	}
-
-	public Integer getAno() {
-		return ano;
-	}
-
-	public void setAno(Integer ano) {
-		this.ano = ano;
-	}
-
-	public Integer getMes() {
-		return mes;
-	}
-
-	public void setMes(Integer mes) {
-		this.mes = mes;
-	}
-
-	public String getDataRegistro() {
-		return dataRegistro;
-	}
-
-	public void setDataRegistro(String dataRegistro) {
-		this.dataRegistro = dataRegistro;
 	}
 
 	@Override
@@ -85,10 +110,5 @@ public class Revenue implements Serializable{
 		Revenue other = (Revenue) obj;
 		return Objects.equals(id, other.id);
 	}
-
-	@Override
-	public String toString() {
-		return "Revenue [id=" + id + ", descricao=" + descricao + ", valor=" + valor + ", ano=" + ano + ", mes=" + mes
-				+ ", dataRegistro=" + dataRegistro + "]";
-	}
+	
 }
