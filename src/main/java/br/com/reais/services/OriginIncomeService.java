@@ -14,13 +14,17 @@ import br.com.reais.repositories.OriginIncomeRepository;
 public class OriginIncomeService {
 	@Autowired
 	private OriginIncomeRepository conn;
-	
-	public List<OriginIncome> findAll(){
-		return conn.findAll();
-	}
-	
+		
 	public OriginIncome findById(Long id) {
 		Optional<OriginIncome> revenue = conn.findById(id);
-		return revenue.orElseThrow(()->new NotFound("ERROR:R0021BE<br>Receita não encontrada"));
+		return revenue.orElseThrow(()->new NotFound("ERROR:R002BE<br>Receita não encontrada"));
+	}
+	
+	public List<OriginIncome> findAll(){
+		List<OriginIncome> list = conn.findAll();
+		if(list == null) {
+			new NotFound("ERROR:R005BE<br>Receitas não encontrada");
+		}
+		return list;
 	}
 }
