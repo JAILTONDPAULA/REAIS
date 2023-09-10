@@ -7,5 +7,5 @@ import br.com.reais.entities.OriginIncome;
 
 @Repository
 public interface OriginIncomeRepository extends JpaRepository<OriginIncome, Long>{
-
+	OriginIncome findByDescription(String name);
 }

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import br.com.reais.enums.MultiOption;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,8 +35,11 @@ public class Revenue implements Serializable{
 	private String  observation;
 	@Column(name="DT_REGISTRO")
 	private LocalDate  registrationDate;
+	@Column(name="MENSAL")
+	private char monthly;
 	
-	@ManyToOne
+	@JsonManagedReference
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="ID_RECEITA")
 	private OriginIncome origin;
 	
@@ -40,7 +47,7 @@ public class Revenue implements Serializable{
 		
 	}
 
-	public Revenue(Long id, Integer year, Integer month, Double value, String observation, LocalDate registrationDate) {
+	public Revenue(Long id, Integer year, Integer month, Double value, String observation, LocalDate registrationDate,MultiOption monthly) {
 		super();
 		this.id = id;
 		this.year = year;
@@ -48,8 +55,13 @@ public class Revenue implements Serializable{
 		this.value = value;
 		this.observation = observation;
 		this.registrationDate = registrationDate;
+		this.monthly = monthly.getCode();
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
 	public Integer getYear() {
 		return year;
 	}
@@ -89,9 +101,23 @@ public class Revenue implements Serializable{
 	public void setRegistrationDate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+	
+	
 
-	public Long getId() {
-		return id;
+	public MultiOption getMonthly() {
+		return MultiOption.toEnum(this.monthly);
+	}
+
+	public void setMonthly(MultiOption monthly) {
+		this.monthly = monthly.getCode();
+	}
+
+	public OriginIncome getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(OriginIncome origin) {
+		this.origin = origin;
 	}
 
 	@Override

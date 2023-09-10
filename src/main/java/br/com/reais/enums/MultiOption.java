@@ -14,7 +14,7 @@ public enum MultiOption {
 		return this.code;
 	}
 	
-	public MultiOption toEnum(char code) {
+	public static MultiOption toEnum(char code) {
 		for (MultiOption x : MultiOption.values()) {
 			if(x.getCode() == code) {
 				return x;

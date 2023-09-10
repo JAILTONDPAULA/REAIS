@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import br.com.reais.services.OriginIncomeService;
 import br.com.reais.settings.Return;
 
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping(value="origem-receitas")
 public class OriginIncomeResource {
 	@Autowired
@@ -32,6 +34,14 @@ public class OriginIncomeResource {
 		OriginIncome receita = rs.findById(id);
 		Return<OriginIncome>  ret = new Return<OriginIncome>(true,"OK");
 		ret.getCod().add(receita);
+		return ResponseEntity.ok().body(ret);
+	}
+	
+	@GetMapping(value="/descricao")
+	public ResponseEntity<Return<String>> listDescription() {
+		List<String> list = rs.listDescrition();
+		Return<String>  ret = new Return<>(true,"OK");
+		ret.setCod(list);
 		return ResponseEntity.ok().body(ret);
 	}
 }
