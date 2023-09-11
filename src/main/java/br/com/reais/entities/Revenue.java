@@ -39,7 +39,7 @@ public class Revenue implements Serializable{
 	private char monthly;
 	
 	@JsonManagedReference
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="ID_RECEITA")
 	private OriginIncome origin;
 	

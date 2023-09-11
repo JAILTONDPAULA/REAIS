@@ -27,7 +27,7 @@ public class RevenueService {
 	}	
 	
 	public List<Revenue> findAll(){
-		List<Revenue> list = conn.findAll();
+		List<Revenue> list = conn.findAllByOrderByYearDescMonthDescRegistrationDateDesc();
 		
 		if(list == null) {
 			new NotFound("ERROR:R006BE<br>Receitas não encontrada");
@@ -47,5 +47,30 @@ public class RevenueService {
 		Revenue re = new Revenue(null,ano,mes,valor,observation,data,m);
 		re.setOrigin(oi);
 		return conn.save(re);
+	}
+	
+	public Revenue update(String id,String origem,Double valor,LocalDate data,Integer ano,Integer mes,String monthly,String observation) {
+		MultiOption m = MultiOption.toEnum(monthly.charAt(0));
+		
+		OriginIncome oi = oconn.findByDescription(origem);
+		if(oi == null) {
+			oi = new OriginIncome(null,origem);
+		}
+
+		Revenue rev = this.findById(Long.parseLong(id));
+		rev.setMonth(mes);
+		rev.setYear(ano);
+		rev.setObservation(observation);
+		rev.setRegistrationDate(data);
+		rev.setValue(valor);
+		rev.setMonthly(m);
+		rev.setOrigin(oi);
+		
+		return conn.save(rev);
+	}
+	
+	public void delete(Long id) {
+		Revenue rev = this.findById(id);
+		conn.delete(rev);
 	}
 }

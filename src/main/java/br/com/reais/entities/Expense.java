@@ -2,6 +2,8 @@ package br.com.reais.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -10,103 +12,156 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 @Entity
-@Table(name="DESPESA")
+@Table(name="despesa")
 public class Expense implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@Column(name="QUANTIDADE")
-	private int quantity;
-	@Column(name="VL_UNIDADE")
-	private Double unitValue;
-	@Column(name="ANO")
-	private int  year;
-	@Column(name="MES")
-	private int month;
-	@Column(name="DATA")
-	private LocalDate date;
-	@Column(name="OBSERVACAO")
-	private String observacao;
-	@Column(name="FL_FIXO")
-	private char fixe;
+	private Long      id;
+	@Column(name="descricao",length=250)
+	private String    description;
+	@Column(name="marca",length=250)
+	private String    marca;
+	@Column(name="tipo",length=250)
+	private String    type;
+	@Column(name="quantidade")
+	private Double    quantity;
+	@Column(name="tipo_quantidade")
+	private Integer   qunatityType;
+	@Column(name="unidade")
+	private Integer   unit;
+	@Column(name="ano")
+	private Integer   year;
+	@Column(name="mes")
+	private Integer   month;
+	@Column(name="data")
+	private LocalDate registrationDate;
+	@Column(name="observacao")
+	private String    observation;
+	@Column(name="mensal")
+	private char      monthly;
+	
+	List<People> people = new ArrayList<>();
 	
 	public Expense() {
 		
 	}
 
-	public Expense(long id, int quantity, Double unitValue, int year, int month, LocalDate date, String observacao,char fixe) {
+	public Expense(Long id, String description, String marca, String type, Double quantity, Integer qunatityType,
+			Integer unit, Integer year, Integer month, LocalDate registrationDate, String observation, char monthly) {
 		this.id = id;
+		this.description = description;
+		this.marca = marca;
+		this.type = type;
 		this.quantity = quantity;
-		this.unitValue = unitValue;
+		this.qunatityType = qunatityType;
+		this.unit = unit;
 		this.year = year;
 		this.month = month;
-		this.date = date;
-		this.observacao = observacao;
-		this.fixe = fixe;
+		this.registrationDate = registrationDate;
+		this.observation = observation;
+		this.monthly = monthly;
 	}
-	
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public int getQuantity() {
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 
-	public Double getUnitValue() {
-		return unitValue;
+	public Integer getQunatityType() {
+		return qunatityType;
 	}
 
-	public void setUnitValue(Double unitValue) {
-		this.unitValue = unitValue;
+	public void setQunatityType(Integer qunatityType) {
+		this.qunatityType = qunatityType;
 	}
 
-	public int getYear() {
+	public Integer getUnit() {
+		return unit;
+	}
+
+	public void setUnit(Integer unit) {
+		this.unit = unit;
+	}
+
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
-	public int getMonth() {
+	public Integer getMonth() {
 		return month;
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(Integer month) {
 		this.month = month;
 	}
 
-	public LocalDate getDate() {
-		return date;
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
 	}
 
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 
-	public String getObservacao() {
-		return observacao;
+	public String getObservation() {
+		return observation;
 	}
 
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
+	public void setObservation(String observation) {
+		this.observation = observation;
 	}
 
-	public char getFixo() {
-		return fixe;
+	public char getMonthly() {
+		return monthly;
 	}
 
-	public void setFixo(char fixe) {
-		this.fixe = fixe;
+	public void setMonthly(char monthly) {
+		this.monthly = monthly;
+	}
+
+	public List<People> getPeople() {
+		return people;
+	}
+
+	public void setPeople(List<People> people) {
+		this.people = people;
 	}
 
 	@Override
@@ -123,6 +178,7 @@ public class Expense implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Expense other = (Expense) obj;
-		return id == other.id;
+		return Objects.equals(id, other.id);
 	}
+	
 }
