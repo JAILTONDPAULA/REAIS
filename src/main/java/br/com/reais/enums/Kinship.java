@@ -9,7 +9,7 @@ public enum Kinship {
 	PET(6,"PET")          ,
 	AVO(7,"AVÓ")          ,
 	SOBRINHO(8,"SOBRINHO"),
-	TITULAR(7,"TITULAR")  ,
+	TITULAR(9,"TITULAR")  ,
 	OUTROS(10,"OUTROS")   ;
 	
 	private Integer code;

@@ -6,11 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 @Entity
 @Table(name="despesa")
@@ -42,6 +47,9 @@ public class Expense implements Serializable{
 	@Column(name="mensal")
 	private char      monthly;
 	
+	@ManyToMany
+	@JsonManagedReference
+	@JoinTable(name="despesa_pessoa",joinColumns = @JoinColumn(name="despesa_id"),inverseJoinColumns = @JoinColumn(name="pessoa_id"))
 	List<People> people = new ArrayList<>();
 	
 	public Expense() {
