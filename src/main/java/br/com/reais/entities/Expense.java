@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import br.com.reais.enums.MultiOption;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 @Entity
 @Table(name="despesa")
@@ -28,8 +30,6 @@ public class Expense implements Serializable{
 	private String    description;
 	@Column(name="marca",length=250)
 	private String    marca;
-	@Column(name="tipo",length=250)
-	private String    type;
 	@Column(name="quantidade")
 	private Double    quantity;
 	@Column(name="tipo_quantidade")
@@ -46,18 +46,27 @@ public class Expense implements Serializable{
 	private String    observation;
 	@Column(name="mensal")
 	private char      monthly;
+	@Column(name="compensado")
+	private char      compensated;
+
 	
 	@ManyToMany
 	@JsonManagedReference
 	@JoinTable(name="despesa_pessoa",joinColumns = @JoinColumn(name="despesa_id"),inverseJoinColumns = @JoinColumn(name="pessoa_id"))
 	List<People> people = new ArrayList<>();
 	
+	@ManyToOne
+	@JsonManagedReference
+	@JoinColumn(name="tipo_id")
+	private Type type;
+
+	
 	public Expense() {
 		
 	}
 
-	public Expense(Long id, String description, String marca, String type, Double quantity, Integer qunatityType,
-			Integer unit, Integer year, Integer month, LocalDate registrationDate, String observation, char monthly) {
+	public Expense(Long id, String description, String marca, Type type, Double quantity, Integer qunatityType,
+			Integer unit, Integer year, Integer month, LocalDate registrationDate, String observation, char monthly, MultiOption compensated) {
 		this.id = id;
 		this.description = description;
 		this.marca = marca;
@@ -70,6 +79,7 @@ public class Expense implements Serializable{
 		this.registrationDate = registrationDate;
 		this.observation = observation;
 		this.monthly = monthly;
+		this.compensated = compensated.getCode();
 	}
 
 	public Long getId() {
@@ -92,11 +102,11 @@ public class Expense implements Serializable{
 		this.marca = marca;
 	}
 
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -170,6 +180,14 @@ public class Expense implements Serializable{
 
 	public void setPeople(List<People> people) {
 		this.people = people;
+	}
+
+	public MultiOption getCompensated() {
+		return MultiOption.toEnum(compensated);
+	}
+
+	public void setCompensated(MultiOption compensated) {
+		this.compensated = compensated.getCode();
 	}
 
 	@Override

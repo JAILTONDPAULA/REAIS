@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.com.reais.entities.Cartegory;
+import br.com.reais.entities.Cost;
 
 @Repository
-public interface CartegoryRepository extends JpaRepository<Cartegory, Long>{
-	List<Cartegory> findAllByOrderByDescription();
+public interface CostRepository extends JpaRepository<Cost, Long>{
+	List<Cost> findAllByOrderByDescription();
 }
